@@ -80,6 +80,20 @@ services:
       retries: 3
       start_period: 40s
 
+  # Direcional Frontend
+  frontend:
+    build:
+      context: ./front/direcional
+      dockerfile: Dockerfile
+    container_name: direcional_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - direcional_network
+    restart: unless-stopped
+
   # Nginx Reverse Proxy (Opcional - para produção)
   nginx:
     image: nginx:alpine
