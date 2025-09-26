@@ -71,7 +71,6 @@ const ApartamentoDetails: React.FC = () => {
   const handleReservar = () => {
     if (!apartamento) return;
     
-    // Redirect to sales form with apartamento pre-selected
     navigate('/vendas/nova', { 
       state: { 
         apartamentoId: apartamento.id,

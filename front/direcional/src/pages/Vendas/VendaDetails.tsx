@@ -35,7 +35,6 @@ const VendaDetails: React.FC = () => {
       const vendaData = await vendaService.getById(vendaId);
       setVenda(vendaData);
 
-      // Load related cliente and apartamento
       const [clienteData, apartamentoData] = await Promise.all([
         clienteService.getById(vendaData.clienteId),
         apartamentoService.getById(vendaData.apartamentoId)

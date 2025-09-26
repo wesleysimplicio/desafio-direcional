@@ -35,7 +35,6 @@ const VendaForm: React.FC = () => {
 
   const selectedApartamentoId = watch('apartamentoId');
 
-  // Pre-selected apartamento from navigation state
   const preSelectedApartamento = location.state?.apartamentoId;
   const apartamentoInfo = location.state?.apartamentoInfo;
 
@@ -66,7 +65,6 @@ const VendaForm: React.FC = () => {
     try {
       setLoadingApartamentos(true);
       const data = await apartamentoService.getAll();
-      // Filter only available apartments for new sales
       const availableApartamentos = isEditing 
         ? data 
         : data.filter(apt => apt.statusApartamento === 'Disponível');
@@ -245,7 +243,6 @@ const VendaForm: React.FC = () => {
                   const value = parseInt(e.target.value);
                   setValue('apartamentoId', value);
                   
-                  // Auto-fill apartment price
                   const apartamento = apartamentos.find(apt => apt.id === value);
                   if (apartamento?.preco) {
                     setValue('valorTotal', apartamento.preco);

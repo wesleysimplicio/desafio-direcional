@@ -48,7 +48,6 @@ const ApartamentosList: React.FC = () => {
   const filterApartamentos = useCallback(() => {
     let filtered = apartamentos;
 
-    // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(apt => 
         apt.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -58,12 +57,10 @@ const ApartamentosList: React.FC = () => {
       );
     }
 
-    // Filter by status
     if (statusFilter !== 'all') {
       filtered = filtered.filter(apt => apt.statusApartamento === statusFilter);
     }
 
-    // Filter by type
     if (tipoFilter !== 'all') {
       filtered = filtered.filter(apt => apt.tipoApartamento === tipoFilter);
     }
@@ -112,7 +109,6 @@ const ApartamentosList: React.FC = () => {
     return '🏠';
   };
 
-  // Get unique types for filter
   const uniqueTypes = Array.from(new Set(apartamentos.map(apt => apt.tipoApartamento)));
 
   if (isLoading) {

@@ -31,7 +31,6 @@ const VendasList: React.FC = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [vendaToDelete, setVendaToDelete] = useState<Venda | null>(null);
 
-  // Check if there's a filter from navigation state
   const apartamentoFilter = location.state?.apartamentoFilter;
 
   useEffect(() => {
@@ -46,11 +45,9 @@ const VendasList: React.FC = () => {
     try {
       setIsLoading(true);
       
-      // Load vendas
       const vendasData = await vendaService.getAll();
       setVendas(vendasData);
 
-      // Load related clientes and apartamentos
       const clienteIds = Array.from(new Set(vendasData.map(v => v.clienteId)));
       const apartamentoIds = Array.from(new Set(vendasData.map(v => v.apartamentoId)));
 
@@ -82,12 +79,10 @@ const VendasList: React.FC = () => {
   const filterVendas = useCallback(() => {
     let filtered = vendas;
 
-    // Apply apartamento filter from navigation if exists
     if (apartamentoFilter) {
       filtered = filtered.filter(venda => venda.apartamentoId === apartamentoFilter);
     }
 
-    // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(venda => {
         const cliente = clientes[venda.clienteId];
@@ -103,12 +98,10 @@ const VendasList: React.FC = () => {
       });
     }
 
-    // Filter by status
     if (statusFilter !== 'all') {
       filtered = filtered.filter(venda => venda.statusVenda === statusFilter);
     }
 
-    // Filter by date period
     if (dateFilter !== 'all') {
       const now = new Date();
       const filterDate = new Date();

@@ -18,7 +18,6 @@ const Login: React.FC = () => {
     try {
       await login(data);
     } catch (error) {
-      // Error is handled in the context
     }
   };
 

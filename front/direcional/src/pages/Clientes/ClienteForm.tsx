@@ -36,7 +36,6 @@ const ClienteForm: React.FC = () => {
       setLoadingData(true);
       const cliente = await clienteService.getById(clienteId);
       
-      // Format data for form
       const formData: ClienteFormData = {
         nome: cliente.nome,
         cpf: cliente.cpf,

@@ -51,7 +51,6 @@ export const authService = {
     
     if (!token || !user) return false;
     
-    // Check if token is expired
     const expiresAt = new Date(user.expiresAt);
     return expiresAt > new Date();
   },

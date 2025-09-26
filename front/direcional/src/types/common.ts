@@ -1,12 +1,9 @@
-// Common types used across the application
-
 export interface BaseEntity {
   id: number;
   dataCadastro?: string;
   dataAtualizacao?: string;
 }
 
-// API Response types
 export interface ApiResponse<T> {
   data: T;
   message?: string;
@@ -21,7 +18,6 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-// Authentication types
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -40,7 +36,6 @@ export interface AuthResponse {
   expiresAt: string;
 }
 
-// Filter and Search types
 export interface SearchFilters {
   searchTerm?: string;
   status?: string;
@@ -52,13 +47,11 @@ export interface SearchFilters {
   sortOrder?: 'asc' | 'desc';
 }
 
-// Form validation types
 export interface ValidationError {
   field: string;
   message: string;
 }
 
-// Modal types
 export interface ConfirmationModalProps {
   isOpen: boolean;
   title: string;
@@ -69,12 +62,10 @@ export interface ConfirmationModalProps {
   onCancel: () => void;
 }
 
-// Status types
 export type ClienteStatus = 'Ativo' | 'Inativo' | 'Prospecto';
 export type ApartamentoStatus = 'Disponível' | 'Reservado' | 'Vendido' | 'Indisponível';
 export type VendaStatus = 'Pendente' | 'Confirmada' | 'Cancelada' | 'Em Análise';
 
-// Navigation state types
 export interface NavigationState {
   apartamentoId?: number;
   apartamentoInfo?: string;
