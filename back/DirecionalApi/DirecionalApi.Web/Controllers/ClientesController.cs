@@ -17,9 +17,6 @@ public class ClientesController : ControllerBase
         _clienteService = clienteService;
     }
 
-    /// <summary>
-    /// Obter todos os clientes
-    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ClienteDto>>> GetAll()
     {
@@ -34,9 +31,6 @@ public class ClientesController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obter cliente por ID
-    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<ClienteDto>> GetById(int id)
     {
@@ -54,9 +48,6 @@ public class ClientesController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Criar novo cliente
-    /// </summary>
     [HttpPost]
     public async Task<ActionResult<ClienteDto>> Create(CreateClienteDto createClienteDto)
     {
@@ -75,9 +66,6 @@ public class ClientesController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Atualizar cliente
-    /// </summary>
     [HttpPut("{id}")]
     public async Task<ActionResult<ClienteDto>> Update(int id, UpdateClienteDto updateClienteDto)
     {
@@ -96,9 +84,6 @@ public class ClientesController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Excluir cliente
-    /// </summary>
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {

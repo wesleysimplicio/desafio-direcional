@@ -15,9 +15,6 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    /// <summary>
-    /// Realizar login e obter token JWT
-    /// </summary>
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponseDto>> Login(LoginDto loginDto)
     {
@@ -35,9 +32,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Registrar novo usuário
-    /// </summary>
     [HttpPost("register")]
     public async Task<ActionResult> Register(RegisterDto registerDto)
     {

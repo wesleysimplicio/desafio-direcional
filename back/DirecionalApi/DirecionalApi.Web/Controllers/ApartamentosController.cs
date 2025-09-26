@@ -17,9 +17,6 @@ public class ApartamentosController : ControllerBase
         _apartamentoService = apartamentoService;
     }
 
-    /// <summary>
-    /// Obter todos os apartamentos
-    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ApartamentoDto>>> GetAll()
     {
@@ -34,9 +31,6 @@ public class ApartamentosController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obter apartamento por ID
-    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<ApartamentoDto>> GetById(int id)
     {
@@ -54,9 +48,6 @@ public class ApartamentosController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obter apartamentos por status
-    /// </summary>
     [HttpGet("status/{status}")]
     public async Task<ActionResult<IEnumerable<ApartamentoDto>>> GetByStatus(string status)
     {
@@ -71,9 +62,6 @@ public class ApartamentosController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Criar novo apartamento
-    /// </summary>
     [HttpPost]
     public async Task<ActionResult<ApartamentoDto>> Create(CreateApartamentoDto createApartamentoDto)
     {
@@ -92,9 +80,6 @@ public class ApartamentosController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Atualizar apartamento
-    /// </summary>
     [HttpPut("{id}")]
     public async Task<ActionResult<ApartamentoDto>> Update(int id, UpdateApartamentoDto updateApartamentoDto)
     {
@@ -113,9 +98,6 @@ public class ApartamentosController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Excluir apartamento
-    /// </summary>
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {

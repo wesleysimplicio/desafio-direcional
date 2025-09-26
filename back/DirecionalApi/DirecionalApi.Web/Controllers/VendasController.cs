@@ -17,9 +17,6 @@ public class VendasController : ControllerBase
         _vendaService = vendaService;
     }
 
-    /// <summary>
-    /// Obter todas as vendas
-    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<VendaDto>>> GetAll()
     {
@@ -34,9 +31,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obter venda por ID
-    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<VendaDto>> GetById(int id)
     {
@@ -54,9 +48,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obter vendas por cliente
-    /// </summary>
     [HttpGet("cliente/{clienteId}")]
     public async Task<ActionResult<IEnumerable<VendaDto>>> GetByClienteId(int clienteId)
     {
@@ -71,9 +62,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obter vendas por status
-    /// </summary>
     [HttpGet("status/{status}")]
     public async Task<ActionResult<IEnumerable<VendaDto>>> GetByStatus(string status)
     {
@@ -88,9 +76,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Criar nova venda
-    /// </summary>
     [HttpPost]
     public async Task<ActionResult<VendaDto>> Create(CreateVendaDto createVendaDto)
     {
@@ -109,9 +94,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Atualizar venda
-    /// </summary>
     [HttpPut("{id}")]
     public async Task<ActionResult<VendaDto>> Update(int id, UpdateVendaDto updateVendaDto)
     {
@@ -130,9 +112,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Excluir venda
-    /// </summary>
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
