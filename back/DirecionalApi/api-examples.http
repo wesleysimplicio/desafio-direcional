@@ -1,0 +1,247 @@
+### Direcional API - Exemplos de Requisições HTTP
+
+@baseUrl = https://localhost:7000/api
+@token = {{login.response.body.token}}
+
+### 1. Login (obter token)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+### 2. Registrar novo usuário
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "novousuario",
+  "email": "novo@email.com",
+  "password": "senha123",
+  "role": "User"
+}
+
+###############################################
+# CLIENTES
+###############################################
+
+### 3. Listar todos os clientes
+GET {{baseUrl}}/clientes
+Authorization: Bearer {{token}}
+
+### 4. Obter cliente por ID
+GET {{baseUrl}}/clientes/1
+Authorization: Bearer {{token}}
+
+### 5. Criar novo cliente
+POST {{baseUrl}}/clientes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Maria Silva Santos",
+  "cpf": "98765432100",
+  "email": "maria.silva@email.com",
+  "telefone": "11987654321",
+  "endereco": "Rua das Palmeiras, 456",
+  "cidade": "São Paulo",
+  "estado": "SP",
+  "cep": "01234567",
+  "dataNascimento": "1985-05-15",
+  "rendaMensal": 8500.00,
+  "observacoes": "Cliente em potencial para apartamentos de alto padrão"
+}
+
+### 6. Atualizar cliente
+PUT {{baseUrl}}/clientes/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "João Silva Santos Atualizado",
+  "email": "joao.silva.novo@email.com",
+  "telefone": "11999887766",
+  "endereco": "Rua das Flores, 789 - Apto 101",
+  "cidade": "São Paulo",
+  "estado": "SP",
+  "cep": "01234567",
+  "dataNascimento": "1980-03-10",
+  "rendaMensal": 6500.00,
+  "statusCliente": "Ativo",
+  "observacoes": "Cliente atualizado com novas informações"
+}
+
+### 7. Excluir cliente
+DELETE {{baseUrl}}/clientes/1
+Authorization: Bearer {{token}}
+
+###############################################
+# APARTAMENTOS
+###############################################
+
+### 8. Listar todos os apartamentos
+GET {{baseUrl}}/apartamentos
+Authorization: Bearer {{token}}
+
+### 9. Obter apartamento por ID
+GET {{baseUrl}}/apartamentos/1
+Authorization: Bearer {{token}}
+
+### 10. Filtrar apartamentos por status
+GET {{baseUrl}}/apartamentos/status/Disponível
+Authorization: Bearer {{token}}
+
+### 11. Criar novo apartamento
+POST {{baseUrl}}/apartamentos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "numeroApartamento": "1501",
+  "bloco": "C",
+  "andar": 15,
+  "areaTotal": 95.50,
+  "areaPrivativa": 85.30,
+  "quartos": 3,
+  "suites": 1,
+  "banheiros": 2,
+  "vagasGaragem": 2,
+  "varanda": true,
+  "valorVenda": 520000.00,
+  "valorCondominio": 650.00,
+  "descricao": "Apartamento com vista panorâmica, acabamento de primeira",
+  "empreendimento": "Residencial Vista Verde",
+  "entregaPrevista": "2024-12-31"
+}
+
+### 12. Atualizar apartamento
+PUT {{baseUrl}}/apartamentos/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "numeroApartamento": "101A",
+  "bloco": "A",
+  "andar": 1,
+  "areaTotal": 68.50,
+  "areaPrivativa": 60.30,
+  "quartos": 2,
+  "suites": 1,
+  "banheiros": 2,
+  "vagasGaragem": 1,
+  "varanda": true,
+  "valorVenda": 295000.00,
+  "valorCondominio": 480.00,
+  "statusApartamento": "Disponível",
+  "descricao": "Apartamento reformado, pronto para morar",
+  "empreendimento": "Residencial Vista Verde",
+  "entregaPrevista": "2024-06-30"
+}
+
+### 13. Excluir apartamento
+DELETE {{baseUrl}}/apartamentos/1
+Authorization: Bearer {{token}}
+
+###############################################
+# VENDAS
+###############################################
+
+### 14. Listar todas as vendas
+GET {{baseUrl}}/vendas
+Authorization: Bearer {{token}}
+
+### 15. Obter venda por ID
+GET {{baseUrl}}/vendas/1
+Authorization: Bearer {{token}}
+
+### 16. Vendas por cliente
+GET {{baseUrl}}/vendas/cliente/1
+Authorization: Bearer {{token}}
+
+### 17. Filtrar vendas por status
+GET {{baseUrl}}/vendas/status/Ativa
+Authorization: Bearer {{token}}
+
+### 18. Criar nova venda
+POST {{baseUrl}}/vendas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "apartamentoId": 1,
+  "valorVenda": 280000.00,
+  "formaPagamento": "Financiamento",
+  "valorEntrada": 56000.00,
+  "numeroParcelas": 120,
+  "valorParcela": 2100.00,
+  "dataPrimeiraParcela": "2024-02-01",
+  "vendedor": "Carlos Silva",
+  "comissaoVendedor": 8400.00,
+  "observacoes": "Venda realizada com desconto especial de 5%"
+}
+
+### 19. Atualizar venda
+PUT {{baseUrl}}/vendas/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "valorVenda": 285000.00,
+  "formaPagamento": "Financiamento + FGTS",
+  "valorEntrada": 60000.00,
+  "numeroParcelas": 120,
+  "valorParcela": 2150.00,
+  "dataPrimeiraParcela": "2024-02-01",
+  "statusVenda": "Ativa",
+  "vendedor": "Carlos Silva",
+  "comissaoVendedor": 8550.00,
+  "observacoes": "Venda atualizada - cliente utilizou FGTS"
+}
+
+### 20. Quitar venda
+PUT {{baseUrl}}/vendas/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "valorVenda": 285000.00,
+  "formaPagamento": "Financiamento + FGTS",
+  "valorEntrada": 60000.00,
+  "numeroParcelas": 120,
+  "valorParcela": 2150.00,
+  "dataPrimeiraParcela": "2024-02-01",
+  "statusVenda": "Quitada",
+  "vendedor": "Carlos Silva",
+  "comissaoVendedor": 8550.00,
+  "dataQuitacao": "2024-01-25",
+  "observacoes": "Venda quitada antecipadamente"
+}
+
+### 21. Excluir venda
+DELETE {{baseUrl}}/vendas/1
+Authorization: Bearer {{token}}
+
+###############################################
+# EXEMPLOS DE ERRO
+###############################################
+
+### 22. Tentar acessar sem token (401)
+GET {{baseUrl}}/clientes
+
+### 23. Criar cliente com CPF duplicado (400)
+POST {{baseUrl}}/clientes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Cliente Duplicado",
+  "cpf": "12345678901",
+  "email": "duplicado@email.com"
+}
+
+### 24. Buscar recurso inexistente (404)
+GET {{baseUrl}}/clientes/999999
+Authorization: Bearer {{token}}

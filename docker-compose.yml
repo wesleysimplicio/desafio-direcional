@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # SQL Server Express Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: direcional_sqlserver
+    hostname: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=DirecionalAPI@2024
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+      - ./db:/scripts
+    networks:
+      - direcional_network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'DirecionalAPI@2024' -Q 'SELECT 1' -N -C -l 30"]
+      interval: 30s
+      timeout: 30s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+
+  # Database Initialization Service
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: direcional_db_init
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      - SA_PASSWORD=DirecionalAPI@2024
+    volumes:
+      - ./db:/scripts
+    networks:
+      - direcional_network
+    command: >
+      bash -c "
+        echo 'Aguardando SQL Server estar pronto...' &&
+        sleep 30 &&
+        echo 'Executando scripts de inicialização...' &&
+        /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P 'DirecionalAPI@2024' -i /scripts/DDL_direcional.sql -N -C &&
+        echo 'Script DDL executado com sucesso!' &&
+        /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P 'DirecionalAPI@2024' -i /scripts/InsertUsers.sql -N -C &&
+        echo 'Usuários padrão criados com sucesso!' &&
+        echo 'Inicialização do banco concluída!'
+      "
+    restart: "no"
+
+  # Direcional API
+  api:
+    build:
+      context: ./back/DirecionalApi
+      dockerfile: DirecionalApi.Web/Dockerfile
+    container_name: direcional_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080;https://+:8081
+      - ASPNETCORE_HTTPS_PORT=8081
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=DirecionalDB;User Id=sa;Password=DirecionalAPI@2024;TrustServerCertificate=true;MultipleActiveResultSets=true;
+      - Jwt__SecretKey=YourVeryLongSecretKeyForJWTTokenGeneration123456789DirecionalAPI
+      - Jwt__Issuer=DirecionalApi
+      - Jwt__Audience=DirecionalApi
+    ports:
+      - "5000:8080"   # HTTP
+      - "5001:8081"   # HTTPS
+    depends_on:
+      - db-init
+    networks:
+      - direcional_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/auth/login || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx Reverse Proxy (Opcional - para produção)
+  nginx:
+    image: nginx:alpine
+    container_name: direcional_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    networks:
+      - direcional_network
+    restart: unless-stopped
+    profiles:
+      - production  # Este serviço só será iniciado com --profile production
+
+volumes:
+  sqlserver_data:
+    driver: local
+    name: direcional_sqlserver_data
+
+networks:
+  direcional_network:
+    driver: bridge
+    name: direcional_network
